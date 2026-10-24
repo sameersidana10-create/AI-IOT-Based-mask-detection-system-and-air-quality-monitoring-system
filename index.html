@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartMask AI</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <h2>SmartMask</h2>
+                <span>AI ENVIRONMENT</span>
+            </div>
+        </div>
+
+        <nav>
+
+            <a href="#" class="nav-link active" data-page="dashboard">
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="live">
+                <i class="bi bi-camera-video-fill"></i>
+                <span>Live Monitoring</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="air">
+                <i class="bi bi-cloud-haze2-fill"></i>
+                <span>Air Quality</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="reports">
+                <i class="bi bi-graph-up-arrow"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="settings">
+                <i class="bi bi-gear-fill"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="system-status">
+            <span class="status-dot"></span>
+
+            <div>
+                <strong>System Online</strong>
+                <small id="apiStatus">Connecting...</small>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- TOP -->
+        <header class="topbar">
+
+            <div>
+                <div class="location">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span id="locationText">Detecting location...</span>
+                </div>
+
+                <h1 id="pageTitle">Environmental Intelligence</h1>
+
+                <p id="pageSubtitle">
+                    AI-powered mask detection & environmental monitoring
+                </p>
+            </div>
+
+            <div class="top-right">
+
+                <div class="live-indicator">
+                    <span></span>
+                    SYSTEM LIVE
+                </div>
+
+                <div class="clock">
+                    <strong id="date"></strong>
+                    <small id="time"></small>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboardPage" class="page active">
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="stat-icon green">
+                        <i class="bi bi-person-check-fill"></i>
+                    </div>
+
+                    <div>
+                        <span>People With Mask</span>
+                        <strong id="maskCount">--</strong>
+                        <small class="green-text">Live detection</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon red">
+                        <i class="bi bi-person-x-fill"></i>
+                    </div>
+
+                    <div>
+                        <span>Without Mask</span>
+                        <strong id="noMaskCount">--</strong>
+                        <small class="red-text">Live detection</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon blue">
+                        <i class="bi bi-wind"></i>
+                    </div>
+
+                    <div>
+                        <span>Current AQI</span>
+                        <strong id="aqiValue">--</strong>
+                        <small id="aqiStatus">Loading...</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon orange">
+                        <i class="bi bi-thermometer-half"></i>
+                    </div>
+
+                    <div>
+                        <span>Temperature</span>
+                        <strong id="temperature">-- °C</strong>
+                        <small>Humidity <b id="humidity">--%</b></small>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CAMERA + AQI -->
+
+            <div class="main-grid">
+
+                <!-- CAMERA -->
+
+                <div class="card camera-card">
+
+                    <div class="card-title">
+
+                        <div>
+                            <span class="eyebrow">COMPUTER VISION</span>
+                            <h3>Live Camera Monitoring</h3>
+                        </div>
+
+                        <div class="ai-badge">
+                            <span></span>
+                            AI ACTIVE
+                        </div>
+
+                    </div>
+
+
+                    <div class="camera">
+
+                        <img
+                            id="liveCamera"
+                            src="http://127.0.0.1:5000/video_feed"
+                            alt="Live AI camera"
+/>
+
+                        <div class="camera-top-left">
+                            <span class="record-dot"></span>
+                            LIVE
+                        </div>
+
+                        <div class="camera-top-right">
+                            HD • 30 FPS
+                        </div>
+
+
+                        <!-- AI DETECTION -->
+
+                        <div class="ai-scan">
+                            <i class="bi bi-cpu-fill"></i>
+                            AI VISION SCANNING
+                        </div>
+
+                    </div>
+
+
+                    <div class="camera-stats">
+
+                        <div>
+                            <span>PEOPLE</span>
+                            <strong id="peopleDetected">4</strong>
+                        </div>
+
+                        <div>
+                            <span>MASKED</span>
+                            <strong class="green-text">0</strong>
+                        </div>
+
+                        <div>
+                            <span>NO MASK</span>
+                            <strong class="red-text">0</strong>
+                        </div>
+
+                        <div>
+                            <span>ACCURACY</span>
+                            <strong>92%</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AIR QUALITY -->
+
+                <div class="card">
+
+                    <div class="card-title">
+
+                        <div>
+                            <span class="eyebrow">ENVIRONMENT</span>
+                            <h3>Air Quality</h3>
+                        </div>
+
+                        <i class="bi bi-cloud-haze2-fill title-icon"></i>
+
+                    </div>
+
+
+                    <div class="aqi-display">
+
+                        <div class="aqi-ring">
+
+                            <div>
+                                <strong id="aqiGauge">--</strong>
+                                <span>AQI</span>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <span class="muted">CURRENT CONDITION</span>
+                            <h2 id="aqiGaugeStatus">Loading...</h2>
+                            <p>US Air Quality Index</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="pollutants">
+
+                        <div>
+                            <span>PM2.5</span>
+                            <strong id="pm25">--</strong>
+                            <small>μg/m³</small>
+                        </div>
+
+                        <div>
+                            <span>PM10</span>
+                            <strong id="pm10">--</strong>
+                            <small>μg/m³</small>
+                        </div>
+
+                        <div>
+                            <span>CO</span>
+                            <strong id="co">--</strong>
+                            <small>μg/m³</small>
+                        </div>
+
+                        <div>
+                            <span>NO₂</span>
+                            <strong id="no2">--</strong>
+                            <small>μg/m³</small>
+                        </div>
+
+                        <div>
+                            <span>SO₂</span>
+                            <strong id="so2">--</strong>
+                            <small>μg/m³</small>
+                        </div>
+
+                        <div>
+                            <span>O₃</span>
+                            <strong id="o3">--</strong>
+                            <small>μg/m³</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI INTELLIGENCE -->
+
+            <div class="card ai-panel">
+
+                <div class="card-title">
+
+                    <div>
+                        <span class="eyebrow">ARTIFICIAL INTELLIGENCE</span>
+                        <h3>Environmental Intelligence</h3>
+                    </div>
+
+                    <div class="ai-badge">
+                        <span></span>
+                        ANALYZING
+                    </div>
+
+                </div>
+
+
+                <div class="ai-metrics">
+
+                    <div class="ai-metric">
+                        <span>ENVIRONMENT RISK</span>
+                        <strong id="riskScore">--</strong>
+                        <small id="riskText">Analyzing...</small>
+                    </div>
+
+                    <div class="ai-metric">
+                        <span>AI PEOPLE COUNT</span>
+                        <strong id="aiPeople">4</strong>
+                        <small>Live camera</small>
+                    </div>
+
+                    <div class="ai-metric">
+                        <span>VISION CONFIDENCE</span>
+                        <strong>92%</strong>
+                        <small>Detection model</small>
+                    </div>
+
+                    <div class="ai-metric">
+                        <span>AQI FORECAST</span>
+                        <strong id="prediction">--</strong>
+                        <small>Next reading</small>
+                    </div>
+
+                </div>
+
+
+                <div class="ai-analysis">
+
+                    <div class="ai-analysis-icon">
+                        <i class="bi bi-cpu-fill"></i>
+                    </div>
+
+                    <div>
+                        <strong>AI Analysis</strong>
+
+                        <p id="aiAnalysis">
+                            Waiting for environmental data...
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="recommendation">
+
+                    <i class="bi bi-lightbulb-fill"></i>
+
+                    <div>
+                        <strong>AI Recommendation</strong>
+
+                        <p id="recommendation">
+                            Gathering live environmental information...
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CHART -->
+
+            <div class="card">
+
+                <div class="card-title">
+
+                    <div>
+                        <span class="eyebrow">ANALYTICS</span>
+                        <h3>Air Quality Trend</h3>
+                    </div>
+
+                    <span class="live-data">
+                        ● LIVE DATA
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="aqiChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= LIVE ================= -->
+
+        <section id="livePage" class="page">
+
+            <div class="page-heading">
+                <span class="eyebrow">COMPUTER VISION</span>
+                <h2>Live Monitoring</h2>
+                <p>Real-time AI camera monitoring</p>
+            </div>
+
+            <div class="card">
+
+                <div class="large-camera">
+
+                    <img
+                        id="liveCamera2"
+                        src="http://127.0.0.1:5000/video_feed"
+                        alt="Live AI camera"
+/>
+
+                    <div class="camera-top-left">
+                        <span class="record-dot"></span>
+                        LIVE AI CAMERA
+                    </div>
+
+                    <div class="ai-scan">
+                        <i class="bi bi-cpu-fill"></i>
+                        AI VISION ACTIVE
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= AIR ================= -->
+
+        <section id="airPage" class="page">
+
+            <div class="page-heading">
+                <span class="eyebrow">ENVIRONMENT</span>
+                <h2>Air Quality</h2>
+                <p>Live environmental data from Open-Meteo</p>
+            </div>
+
+            <div class="air-grid">
+
+                <div class="card current-aqi">
+
+                    <span class="muted">CURRENT AQI</span>
+
+                    <strong id="airPageAQI">--</strong>
+
+                    <h3 id="airPageStatus">Loading...</h3>
+
+                    <p>US Air Quality Index</p>
+
+                </div>
+
+
+                <div class="card environment-values">
+
+                    <div>
+                        <span>Temperature</span>
+                        <strong id="airTemp">--</strong>
+                    </div>
+
+                    <div>
+                        <span>Humidity</span>
+                        <strong id="airHumidity">--</strong>
+                    </div>
+
+                    <div>
+                        <span>PM2.5</span>
+                        <strong id="airPM25">--</strong>
+                    </div>
+
+                    <div>
+                        <span>PM10</span>
+                        <strong id="airPM10">--</strong>
+                    </div>
+
+                    <div>
+                        <span>CO</span>
+                        <strong id="airCO">--</strong>
+                    </div>
+
+                    <div>
+                        <span>NO₂</span>
+                        <strong id="airNO2">--</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= REPORTS ================= -->
+
+        <section id="reportsPage" class="page">
+
+            <div class="page-heading">
+                <span class="eyebrow">ANALYTICS</span>
+                <h2>Reports</h2>
+                <p>SmartMask monitoring summary</p>
+            </div>
+
+            <div class="report-grid">
+
+                <div class="card">
+                    <span class="muted">MASK DETECTION</span>
+                    <strong class="report-number">75%</strong>
+                    <p>People wearing masks</p>
+                </div>
+
+                <div class="card">
+                    <span class="muted">NO MASK</span>
+                    <strong class="report-number red-text">25%</strong>
+                    <p>People without masks</p>
+                </div>
+
+                <div class="card">
+                    <span class="muted">CURRENT AQI</span>
+                    <strong class="report-number" id="reportAQI">--</strong>
+                    <p>Live API value</p>
+                </div>
+
+                <div class="card">
+                    <span class="muted">TEMPERATURE</span>
+                    <strong class="report-number" id="reportTemp">--</strong>
+                    <p>Live weather data</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= SETTINGS ================= -->
+
+        <section id="settingsPage" class="page">
+
+            <div class="page-heading">
+                <span class="eyebrow">SYSTEM</span>
+                <h2>Settings</h2>
+                <p>SmartMask configuration</p>
+            </div>
+
+            <div class="card settings">
+
+                <div class="setting">
+
+                    <div>
+                        <strong>AI Monitoring</strong>
+                        <p>Enable environmental AI analysis</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting">
+
+                    <div>
+                        <strong>Live Camera</strong>
+                        <p>Enable webcam monitoring</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span></span>
+                    </label>
+
+                </div>
+
+
+                <div class="setting">
+
+                    <div>
+                        <strong>Live Environmental API</strong>
+                        <p>Automatically update temperature and AQI</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span></span>
+                    </label>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
